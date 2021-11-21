@@ -30,13 +30,13 @@ void processInput(GLFWwindow* window)
 
     constexpr float cameraSpeed {3.0f};
     if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        camear_g.moveFront(cameraSpeed);
+        camera_g.moveFront(cameraSpeed);
     if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        camear_g.moveFront(-cameraSpeed);
+        camera_g.moveFront(-cameraSpeed);
     if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        camear_g.moveSide(-cameraSpeed);
+        camera_g.moveSide(-cameraSpeed);
     if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        camear_g.moveSide(cameraSpeed);
+        camera_g.moveSide(cameraSpeed);
 }
 
 void clearBuffer()
@@ -51,7 +51,7 @@ void draw(const Shader& shader, const Mesh& mesh )
     
     glUniformMatrix4fv(glGetUniformLocation(shader.ID, "projection"), 1, GL_FALSE, glm::value_ptr(projection_g));
     glUniformMatrix4fv(glGetUniformLocation(shader.ID, "model"), 1, GL_FALSE, glm::value_ptr(glm::mat4 (1.0f)));
-    glUniformMatrix4fv(glGetUniformLocation(shader.ID,  "view"), 1, GL_FALSE, glm::value_ptr(camear_g.getView()));
+    glUniformMatrix4fv(glGetUniformLocation(shader.ID,  "view"), 1, GL_FALSE, glm::value_ptr(camera_g.getView()));
     mesh.draw();
 }
 
@@ -67,7 +67,7 @@ void mouseCallback(GLFWwindow* window, double xPos, double yPos)
         return;
     }
 
-    camear_g.rotate(xPos - pX, pY - yPos);
+    camera_g.rotate(xPos - pX, pY - yPos);
     pX = xPos; 
     pY = yPos;
 }
