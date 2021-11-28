@@ -41,7 +41,7 @@ void processInput(GLFWwindow* window)
 
 void clearBuffer()
 {
-    glClearColor(1.0f, 0.0f, 1.0f, 1.0f); 
+    glClearColor(0.20f, 0.10f, 0.30f, 1.0f); 
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
@@ -93,9 +93,9 @@ int main()
     glViewport(0, 0, width_g, height_g);
     Shader shader {"./../res/shader/vertexShader.glsl", "./../res/shader/fragmentShader.glsl"};
     float vertices  [] {
+        -0.5f, 0.5f, 0.0f,
         -0.5f, -0.5f, 0.0f,
-        0.5f, -0.5f, 0.0f,
-        0.0f, 0.5f, 0.0f,
+        0.5f, -0.5f, 0.0f
     };
 
     unsigned int indices []  {
@@ -108,7 +108,6 @@ int main()
     glfwSetCursorPosCallback(window, mouseCallback);
     while(!glfwWindowShouldClose(window))
     {
-        // This on only clears color buffer
         clearBuffer();
         processInput(window);
         

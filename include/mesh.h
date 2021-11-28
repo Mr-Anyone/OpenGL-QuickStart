@@ -31,6 +31,9 @@ public:
         }
         this->loadData();
     }
+    
+    Mesh(const Mesh& mesh) = delete;
+    Mesh(Mesh&& mesh);
 
     ~Mesh()
     {
