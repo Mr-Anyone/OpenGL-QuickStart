@@ -29,10 +29,8 @@ public:
         {
             m_indices[i] = indices[i];
         }
-
+        this->loadData();
     }
-
-    // Move operator
 
     ~Mesh()
     {

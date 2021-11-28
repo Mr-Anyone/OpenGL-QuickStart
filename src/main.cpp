@@ -41,7 +41,7 @@ void processInput(GLFWwindow* window)
 
 void clearBuffer()
 {
-    glClearColor(0.2f, 0.3f, 0.3f, 1.0f); 
+    glClearColor(1.0f, 0.0f, 1.0f, 1.0f); 
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
@@ -71,11 +71,12 @@ void mouseCallback(GLFWwindow* window, double xPos, double yPos)
     pX = xPos; 
     pY = yPos;
 }
+
 int main()
 { 
     std::cout << "Build Success"<< std::endl;
     init();
-    GLFWwindow* window {glfwCreateWindow(width_g, height_g, "OpenGL Window", nullptr, nullptr)};
+    GLFWwindow* window {glfwCreateWindow(width_g, height_g, "Voxel Game", nullptr, nullptr)};
     if(window == nullptr)
     {
         std::cerr << "Cannot Make Window Context" << std::endl; 
@@ -96,12 +97,12 @@ int main()
         0.5f, -0.5f, 0.0f,
         0.0f, 0.5f, 0.0f,
     };
+
     unsigned int indices []  {
         0, 1, 2
     }; 
 
-    Mesh triangle {vertices, indices, 9, 3};
-    triangle.loadData();
+    Mesh triangle {vertices, indices, sizeof(vertices)/sizeof(float), sizeof(indices) / sizeof(unsigned int)};
 
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glfwSetCursorPosCallback(window, mouseCallback);

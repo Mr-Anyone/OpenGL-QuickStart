@@ -6,6 +6,7 @@
 
 void Mesh::loadData()
 {
+    std::cout << "Loading Mesh Data" << std::endl;
     glGenVertexArrays(1, &VAO); 
     glGenBuffers(1, &VBO);
     glGenBuffers(1, &EBO);
@@ -20,6 +21,7 @@ void Mesh::loadData()
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO); 
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * m_indicesSize, m_indices, GL_STATIC_DRAW); 
 
+    // unblind Vertex Array
     glBindVertexArray(0);
 }
 
