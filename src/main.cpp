@@ -10,6 +10,7 @@
 #include "shader.h"
 #include "mesh.h"
 #include "common.h"
+#include "font.h"
 
 extern const int width_g;
 extern const int height_g;
@@ -30,14 +31,15 @@ int main()
         0, 1, 2
     }; 
     Mesh triangle {vertices, indices, sizeof(vertices)/sizeof(float), sizeof(indices) / sizeof(unsigned int)};
-
+    Font timesNewRoman {"./../res/fonts/times_new_roman.ttf", "./../res/shader/font_vertexShader.glsl", "./../res/shader/font_fragmentShader.glsl", width_g, height_g};
 
     while(!glfwWindowShouldClose(window))
     {
         clearBuffer();
         processInput(window);
         
-        draw(shader, triangle);
+        // draw(shader, triangle);
+        timesNewRoman.render("Hello!", 10, 10);
 
         glfwPollEvents(); 
         glfwSwapBuffers(window);
