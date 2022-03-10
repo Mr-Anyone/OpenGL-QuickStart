@@ -1,0 +1,2 @@
+add_library(stbi_image_h INTERFACE)
+target_include_directories(stbi_image_h INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
