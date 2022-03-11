@@ -38,7 +38,7 @@ int main()
         clearBuffer();
         processInput(window);
         
-        // draw(shader, triangle);
+        draw(shader, triangle);
         timesNewRoman.render("Hello!", 10, 10);
 
         glfwPollEvents(); 
