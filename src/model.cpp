@@ -62,7 +62,9 @@ void Model::processMesh(aiMesh *mesh, const aiScene *scene)
         }
         else
         {
-            assert("Model does not have texture");
+            // no texture
+            vertices.push_back(0);
+            vertices.push_back(0);
         }
     }
     // load texture
