@@ -8,8 +8,8 @@
 #include "shader.h"
 #include "mesh.h"
 
-extern const int width_g {1920}; 
-extern const int height_g {1080}; 
+extern const int width_g {1920 / 3}; 
+extern const int height_g {1080/ 3}; 
 Camera camera_g {glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f)};
 glm::mat4 projection_g {glm::perspective(glm::radians(45.0f), static_cast <float> (width_g) / height_g, 0.1f, 200.0f)};
 
@@ -88,4 +88,11 @@ void mouseCallback(GLFWwindow* window, double xPos, double yPos)
     camera_g.rotate(xPos - pX, pY - yPos);
     pX = xPos; 
     pY = yPos;
+}
+
+void setShaderConstant(const Shader& shader)
+{
+    glUniformMatrix4fv(glGetUniformLocation(shader.ID, "projection"), 1, GL_FALSE, glm::value_ptr(projection_g));
+    glUniformMatrix4fv(glGetUniformLocation(shader.ID, "model"), 1, GL_FALSE, glm::value_ptr(glm::mat4 (1.0f)));
+    glUniformMatrix4fv(glGetUniformLocation(shader.ID,  "view"), 1, GL_FALSE, glm::value_ptr(camera_g.getView()));
 }

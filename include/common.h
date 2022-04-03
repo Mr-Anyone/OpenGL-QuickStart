@@ -13,5 +13,5 @@ void processInput(GLFWwindow* window);
 void clearBuffer(); 
 void draw(const Shader& shader, const Mesh& mesh); 
 void mouseCallback(GLFWwindow* window, double xPos, double yPos);
-
+void setShaderConstant(const Shader& shader); 
 #endif

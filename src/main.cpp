@@ -11,6 +11,7 @@
 #include "mesh.h"
 #include "common.h"
 #include "font.h"
+#include "model.h"
 
 extern const int width_g;
 extern const int height_g;
@@ -21,16 +22,8 @@ int main()
     GLFWwindow* window {init()};
 
     Shader shader {"./../res/shader/vertexShader.glsl", "./../res/shader/fragmentShader.glsl"};
-    float vertices  [] {
-        -0.5f, 0.5f, 0.0f,
-        -0.5f, -0.5f, 0.0f,
-        0.5f, -0.5f, 0.0f
-    };
+    Model model ("./../res/model/backpack/backpack.obj"); 
 
-    unsigned int indices []  {
-        0, 1, 2
-    }; 
-    Mesh triangle {vertices, indices, sizeof(vertices)/sizeof(float), sizeof(indices) / sizeof(unsigned int)};
     Font timesNewRoman {"./../res/fonts/times_new_roman.ttf", "./../res/shader/font_vertexShader.glsl", "./../res/shader/font_fragmentShader.glsl", width_g, height_g};
 
     while(!glfwWindowShouldClose(window))
@@ -38,8 +31,10 @@ int main()
         clearBuffer();
         processInput(window);
         
-        draw(shader, triangle);
-        timesNewRoman.render("Hello!", 10, 10);
+        shader.use();        
+        setShaderConstant(shader);
+        timesNewRoman.render("Testing", 10, 10);        
+        model.render(shader);
 
         glfwPollEvents(); 
         glfwSwapBuffers(window);
