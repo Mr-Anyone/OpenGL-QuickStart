@@ -43,6 +43,7 @@ void Model::processNode(aiNode *node, const aiScene *scene)
 void Model::processMesh(aiMesh *mesh, const aiScene *scene)
 {
     std::vector<float> vertices{};
+    std::vector<unsigned int> indices {};
     std::vector<Texture> textures {};
 
     for (int i = 0; i < mesh->mNumVertices; ++i)
@@ -67,6 +68,16 @@ void Model::processMesh(aiMesh *mesh, const aiScene *scene)
             vertices.push_back(0);
         }
     }
+    // loading indices 
+    for(int i = 0; i<mesh->mNumFaces; ++i)
+    {
+        aiFace face = mesh->mFaces[i]; 
+        for(int j=0; j<face.mNumIndices; ++j)
+        {
+            indices.push_back(face.mIndices[j]);
+        }
+    }
+
     // load texture
     if(mesh ->mMaterialIndex >= 0)
     {
@@ -78,7 +89,7 @@ void Model::processMesh(aiMesh *mesh, const aiScene *scene)
         std::vector<Texture> specularMap = loadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
         textures.insert(textures.end(), specularMap.begin(), specularMap.end());
     }
-    m_meshes.push_back(ModelMesh{vertices, textures});
+    m_meshes.push_back(ModelMesh{vertices, textures, indices});
 }
 
 unsigned int textureFromFile(std::string filename);
@@ -153,16 +164,17 @@ unsigned int textureFromFile(std::string filename)
     return textureID;
 }
 
-ModelMesh::ModelMesh(const std::vector<float> &vertices, const std::vector<Texture>&  textures) : 
-    m_verticesSize{vertices.size()}, m_textures {textures}
+ModelMesh::ModelMesh(const std::vector<float> &vertices, const std::vector<Texture>&  textures, const std::vector<unsigned int>& indices) : 
+    m_indicesSize{indices.size()}, m_textures {textures}
 {
-    loadData(vertices);
+    loadData(vertices, indices);
 }
 
-void ModelMesh::loadData(const std::vector<float> &vertices)
+void ModelMesh::loadData(const std::vector<float> &vertices, const std::vector<unsigned int>& indices)
 {
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO);
 
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -174,6 +186,10 @@ void ModelMesh::loadData(const std::vector<float> &vertices)
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
     glEnableVertexAttribArray(2);
+
+    // elment array buffer
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO); 
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * indices.size(), &indices[0], GL_STATIC_DRAW); 
 }
 
 void Model::render(const Shader &shader) const
@@ -214,5 +230,6 @@ void ModelMesh::render(const Shader &shader) const
         shader.setInt(texture_name, specularCount + diffuseCount);
     }
     glBindVertexArray(VAO);
-    glDrawArrays(GL_TRIANGLES, 0, m_verticesSize);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glDrawElements(GL_TRIANGLES, m_indicesSize, GL_UNSIGNED_INT, 0); 
 }

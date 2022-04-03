@@ -35,12 +35,12 @@ private:
 class ModelMesh
 {
 public:
-    ModelMesh(const std::vector<float>&  vertices, const std::vector<Texture>&  textures);
+    ModelMesh(const std::vector<float>&  vertices, const std::vector<Texture>&  textures, const std::vector<unsigned int>& indices);
     void render(const Shader& shader ) const;
 private:
-    void loadData(const std::vector<float>& vertices);
-    unsigned int VAO, VBO;
-    std::size_t m_verticesSize;
+    void loadData(const std::vector<float>& vertices, const std::vector<unsigned int>& indices);
+    unsigned int VAO, VBO, EBO;
+    std::size_t m_indicesSize;
     std::vector<Texture> m_textures {}; 
 };
 #endif
