@@ -2,7 +2,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-
+#include <stbi_image.h>
 
 #include "camera.h"
 #include "shader.h"
@@ -38,6 +38,9 @@ GLFWwindow* init()
     
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glfwSetCursorPosCallback(window, mouseCallback);
+
+    glEnable(GL_DEPTH_TEST);  
+    stbi_set_flip_vertically_on_load(true);
     return window;
 }
 
@@ -59,8 +62,8 @@ void processInput(GLFWwindow* window)
 
 void clearBuffer()
 {
-    glClearColor(0.20f, 0.10f, 0.30f, 1.0f); 
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClearColor(0.00f, 0.00f, 0.00f, 1.0f); 
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void draw(const Shader& shader, const Mesh& mesh )

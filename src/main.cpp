@@ -4,6 +4,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#define STB_IMAGE_IMPLEMENTATION
+#include <stbi_image.h>
 
 
 #include "camera.h"
@@ -30,7 +32,7 @@ int main()
     {
         clearBuffer();
         processInput(window);
-        
+
         shader.use();        
         setShaderConstant(shader);
         timesNewRoman.render("Testing", 10, 10);        

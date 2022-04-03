@@ -25,20 +25,22 @@ public:
 private:
     void processNode(aiNode* node, const aiScene* scene);
     void processMesh(aiMesh* mesh, const aiScene* scene);
-    std::string modelDirectory;
+    std::vector<Texture> loadMaterialTextures(aiMaterial* material, aiTextureType type, std::string name);
+    std::string m_modelDirectory;
     
     std::vector<ModelMesh> m_meshes;
-    std::vector<Texture> textures_loaded; 
+    std::vector<Texture> m_texturesLoaded; 
 };
 
 class ModelMesh
 {
 public:
-    ModelMesh(const std::vector<float>&  vertices);
+    ModelMesh(const std::vector<float>&  vertices, const std::vector<Texture>&  textures);
     void render(const Shader& shader ) const;
 private:
     void loadData(const std::vector<float>& vertices);
     unsigned int VAO, VBO;
     std::size_t m_verticesSize;
+    std::vector<Texture> m_textures {}; 
 };
 #endif
